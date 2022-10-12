@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Program {
-    static final Scanner entrada = new Scanner(System.in);
+    /*static final Scanner entrada = new Scanner(System.in);
     static ArrayList<Conta> lista = new ArrayList<>();
     static Conta conta;
     static ContaEspecial contaEspecial;
@@ -26,9 +26,9 @@ public class Program {
                 default -> System.out.println("Opção inválida");
             }
         }while (num != 6);
-    }
+    }*/
 
-    public static void mostrarMenu() {
+    /*public static void mostrarMenu() {
         System.out.println("==========================");
         System.out.println("Menu de opções\n");
         System.out.println("[ 1 ] - Cadastrar conta");
@@ -193,5 +193,5 @@ public class Program {
             }
         }
         return -1;
-    }
+    }*/
 }

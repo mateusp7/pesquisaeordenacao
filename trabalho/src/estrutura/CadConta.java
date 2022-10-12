@@ -24,6 +24,14 @@ public class CadConta implements Vetor {
         return arrayContas.get(posicao);
     }
 
+    public void limpar() {
+        this.arrayContas.clear();
+    }
+
+    public ArrayList<Conta> getArrayContas() {
+        return this.arrayContas;
+    }
+
     public int pesqBinaria (int numeroDaConta) {
         int meio, esq, dir;
         esq = 0;

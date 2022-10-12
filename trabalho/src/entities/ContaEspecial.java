@@ -3,8 +3,8 @@ package entities;
 public class ContaEspecial extends Conta{
     private double limite;
 
-    public ContaEspecial(String nome, String cpf, int numeroDaConta, double limite) {
-        super(nome, cpf, numeroDaConta);
+    public ContaEspecial(int numeroDaConta, String cpf, String nome, double limite) {
+        super(numeroDaConta, cpf, nome);
         this.limite = limite;
     }
 
@@ -17,11 +17,12 @@ public class ContaEspecial extends Conta{
     }
 
     public double saldo() {
-        return this.getValorNaConta() + this.limite;
+        return super.getValorNaConta() + this.limite;
     }
 
     @Override
     public String toString() {
-        return "\n" + super.toString() + "Limite: R$" + this.limite ;
+        return super.getNumeroDaConta() + " - " + super.getCpf() + " - " + super.getNome() + " - " +
+                super.getValorNaConta() + " - " +  this.saldo();
     }
 }

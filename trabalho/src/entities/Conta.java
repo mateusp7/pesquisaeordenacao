@@ -8,10 +8,11 @@ public class Conta implements Transacao {
     private int numeroDaConta;
     private double valorNaConta;
 
-    public Conta(String nome, String cpf, int numeroDaConta) {
-        this.nome = nome;
-        this.cpf = cpf;
+    public Conta(int numeroDaConta, String cpf, String nome) {
         this.numeroDaConta = numeroDaConta;
+        this.cpf = cpf;
+        this.nome = nome;
+        this.valorNaConta = 10;
     }
 
     public String getNome() {
@@ -72,6 +73,6 @@ public class Conta implements Transacao {
 
     @Override
     public String toString() {
-        return "\n" + "Nome: " + this.nome + "\n" + "Cpf: " + this.cpf + "\n" + "Número da conta: " + this.numeroDaConta + "\n";
+        return this.numeroDaConta + " - " + this.cpf + " - " + this.nome + " - " + this.saldo();
     }
 }
