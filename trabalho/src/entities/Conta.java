@@ -72,6 +72,6 @@ public class Conta implements Transacao {
 
     @Override
     public String toString() {
-        return "Nome: " + this.nome + "\n" + "Cpf: " + this.cpf + "\n" + "Número da conta: " + this.numeroDaConta + "\n";
+        return "\n" + "Nome: " + this.nome + "\n" + "Cpf: " + this.cpf + "\n" + "Número da conta: " + this.numeroDaConta + "\n";
     }
 }

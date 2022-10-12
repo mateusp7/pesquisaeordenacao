@@ -1,10 +1,11 @@
 package estrutura;
 
 import entities.Conta;
+import interfaces.Vetor;
 
 import java.util.ArrayList;
 
-public class CadConta {
+public class CadConta implements Vetor {
     private ArrayList<Conta> arrayContas;
 
     public CadConta(ArrayList<Conta> arrayContas) {
@@ -71,7 +72,6 @@ public class CadConta {
     private void ordena (ArrayList<Conta> arrayContas,int esq, int dir) {
         int pivo, i = esq, j = dir;
         Conta temp;
-
         pivo = arrayContas.get((i + j) / 2).getNumeroDaConta();
         do {
             while (arrayContas.get(i).getNumeroDaConta() < pivo) i++;
@@ -87,6 +87,7 @@ public class CadConta {
         if (esq < j ) ordena(arrayContas, esq, j);
         if (dir > i ) ordena(arrayContas, i, dir);
     }
+
 
     public String toString() {
         String resultado = "";
