@@ -26,13 +26,14 @@ public class Program2 {
         if (!(path.toFile().exists())) {
             FileWriter out = new FileWriter("../contas.txt");
             PrintWriter arquivo = new PrintWriter(out);
+            System.out.println("\n======== Arquivo de contas criado com sucesso ========\n");
         }  else {
             try {
                 listaContas.limpar();
-                lerContas();
-                System.out.println("O arquivo de alunos foi lido com sucesso");
+                lerContasDoArquivoEInserirNoArray();
+                System.out.println("\n======== O arquivo de contas foi lido com sucesso! ========\n");
             }catch (Exception e) {
-                System.out.println("====== Não foi possível carregar o arquivo ======");
+                System.out.println("\n====== Não foi possível carregar o arquivo ======\n");
             }
         }
         int opcao;
@@ -45,15 +46,15 @@ public class Program2 {
                 continue;
             }
             switch (opcao) {
-                case 1 -> solicitarDados();
-                case 2 -> consultar();
-                case 5 -> gravarConta();
+                case 1 -> solicitarDadosDaConta();
+                case 2 -> mostrarContas();
+                case 5 -> gravarContasESalvarAlteracoes();
             }
         } while(opcao != 5);
 
     }
 
-    public static ArrayList<Conta> lerContas() throws IOException {
+    public static ArrayList<Conta> lerContasDoArquivoEInserirNoArray() throws IOException {
         List<String> linhas = Files.readAllLines(path, StandardCharsets.UTF_8);
         int i = 0;
         String linha;
@@ -62,13 +63,13 @@ public class Program2 {
             linha = linhas.get(i);
             valorComSplit = linha.split(" - ");
 
-            int number = Integer.parseInt(valorComSplit[0]);
-            String numberString = "" + number;
-            char firstLetterChar = numberString.charAt(0);
-            int firstDigit = Integer.parseInt("" + firstLetterChar);
+            int numero = Integer.parseInt(valorComSplit[0]);
+            String numeroString = "" + numero;
+            char primeriaLetraComoChar = numeroString.charAt(0);
+            int primeiroDigitoDaConta = Integer.parseInt("" + primeriaLetraComoChar);
 
 
-            if (firstDigit == 2) {
+            if (primeiroDigitoDaConta == 2) {
                 listaContas.inserirVetor(new ContaEspecial(Integer.parseInt(valorComSplit[0]), valorComSplit[1],
                         valorComSplit[2], Double.parseDouble(valorComSplit[4])));
             } else {
@@ -80,25 +81,31 @@ public class Program2 {
         return listaContas.getArrayContas();
     }
 
-    public static void gravarConta() throws IOException {
-        FileWriter escrever = new FileWriter(String.valueOf(path), StandardCharsets.UTF_8);
-
-        for (Conta c : listaContas.getArrayContas()) {
-            if (!(c instanceof ContaEspecial)) {
-                escrever.write(c.getNumeroDaConta() + " - " + c.getCpf() + " - " + c.getNome() + " - " + c.getValorNaConta() + "\n");
+    public static void gravarContasESalvarAlteracoes() throws IOException {
+        FileWriter escreverArquivoTxt = new FileWriter(String.valueOf(path), StandardCharsets.UTF_8);
+        listaContas.quicksort(listaContas.getArrayContas());
+        try {
+            for (Conta c : listaContas.getArrayContas()) {
+                if (!(c instanceof ContaEspecial)) {
+                    escreverArquivoTxt.write(c.getNumeroDaConta() + " - " + c.getCpf() + " - " + c.getNome() + " - " + c.getValorNaConta() + "\n");
+                }
+                if (c instanceof ContaEspecial) {
+                    ContaEspecial aux = (ContaEspecial) c;
+                    escreverArquivoTxt.write(c.getNumeroDaConta() + " - " + c.getCpf() + " - " + c.getNome() + " - "
+                            + c.getValorNaConta() + " - " + aux.saldo() +"\n");
+                }
             }
-            if (c instanceof ContaEspecial) {
-                ContaEspecial aux = (ContaEspecial) c;
-                escrever.write(c.getNumeroDaConta() + " - " + c.getCpf() + " - " + c.getNome() + " - "
-                        + c.getValorNaConta() + " - " + aux.saldo() +"\n");
-            }
+            System.out.println("\n======== Contas armazenadas com sucesso ========\n");
         }
-        escrever.close();
+        catch (Exception e) {
+            System.out.println("\n======== Não foi possível gravar as contas ========\n");
+        }
+        escreverArquivoTxt.close();
     }
 
-    public static void consultar() {
+    public static void mostrarContas() {
         if (listaContas.getArrayContas().size() == 0) {
-            System.out.println("Não existem alunos para pesquisar!");
+            System.out.println("Não existem contas registradas!");
         } else {
             for (Conta c : listaContas.getArrayContas()) {
                 if (!(c instanceof ContaEspecial)) {
@@ -113,7 +120,7 @@ public class Program2 {
         }
     }
 
-    public static void solicitarDados() {
+    public static void solicitarDadosDaConta() {
         System.out.println("Qual será o tipo da conta?");
         System.out.println(" [ 1 ] - Conta normal");
         System.out.println(" [ 2 ] - Conta especial");
@@ -124,12 +131,14 @@ public class Program2 {
                 System.out.print("Número da conta: ");
                 int numeroDaConta = entrada.nextInt();
                 String novoValor = (String.valueOf(numeroDaConta));
-                String numeroDaContaFinal = "1" + novoValor;
+                String numeroDaContaMaisDigito = "1" + novoValor;
+                int numeroDaContaFinal = Integer.parseInt(numeroDaContaMaisDigito);
                 while (listaContas.pesqBinaria(numeroDaConta) != -1) {
                     System.out.print("Número da conta já existe, digite um novo número: ");
                     numeroDaConta = entrada.nextInt();
                     novoValor = (String.valueOf(numeroDaConta));
-                    numeroDaContaFinal = "1" + novoValor;
+                    numeroDaContaMaisDigito = "1" + novoValor;
+                    numeroDaContaFinal = Integer.parseInt(numeroDaContaMaisDigito);
                 }
 
                 entrada.nextLine();
@@ -140,23 +149,25 @@ public class Program2 {
                 String cpf = entrada.nextLine();
 
                 try {
-                    conta = new Conta(Integer.parseInt(numeroDaContaFinal), cpf, nome);
+                    conta = new Conta(numeroDaContaFinal, cpf, nome);
                     listaContas.inserirVetor(conta);
-                    System.out.println("Conta inserida com sucesso");
+                    System.out.println("\nConta inserida com sucesso\n");
                 } catch (Exception e) {
-                    System.out.println("Não foi possível criar uma nova conta " + e);
+                    System.out.println("\nNão foi possível criar uma nova conta " + e + "\n");
                 }
             }
             case 2 -> {
                 System.out.print("Número da conta: ");
                 int numeroDaConta = entrada.nextInt();
                 String novoValor = (String.valueOf(numeroDaConta));
-                String numeroDaContaFinal = "2" + novoValor;
+                String numeroDaContaMaisDigito = "2" + novoValor;
+                int numeroDaContaFinal = Integer.parseInt(numeroDaContaMaisDigito);
                 while (listaContas.pesqBinaria(numeroDaConta) != -1) {
                     System.out.print("Número da conta já existe, digite um novo número: ");
                     numeroDaConta = entrada.nextInt();
                     novoValor = (String.valueOf(numeroDaConta));
-                    numeroDaContaFinal = "2" + novoValor;
+                    numeroDaContaMaisDigito = "2" + novoValor;
+                    numeroDaContaFinal = Integer.parseInt(numeroDaContaMaisDigito);
                 }
 
                 entrada.nextLine();
@@ -171,11 +182,11 @@ public class Program2 {
                 double limiteEspecial = entrada.nextDouble();
 
                 try {
-                    contaEspecial = new ContaEspecial(Integer.parseInt(numeroDaContaFinal), cpf, nome, limiteEspecial);
+                    contaEspecial = new ContaEspecial(numeroDaContaFinal, cpf, nome, limiteEspecial);
                     listaContas.inserirVetor(contaEspecial);
-                    System.out.println("Conta Especial inserida com sucesso");
+                    System.out.println("\nConta Especial inserida com sucesso\n");
                 } catch (Exception e) {
-                    System.out.println("Não foi possível criar uma nova conta especial " + e);
+                    System.out.println("\nNão foi possível criar uma nova conta especial " + e + "\n");
                 }
 
             }
@@ -186,7 +197,7 @@ public class Program2 {
     public static void mostrarMenu() {
         System.out.println("======== Menu de opções ========");
         System.out.println("[ 1 ] - Inserir Conta");
-        System.out.println("[ 2 ] - Consultar as contas");
+        System.out.println("[ 2 ] - Mostrar todas as contas");
         System.out.println("[ 3 ] - Remover Conta");
         System.out.println("[ 4 ] - Ler todas as contas");
         System.out.println("[ 5 ] - Finalizar programa e aplicar alterações");

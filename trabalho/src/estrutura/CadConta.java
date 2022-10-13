@@ -38,10 +38,12 @@ public class CadConta implements Vetor {
         dir = this.arrayContas.size() - 1;
         while (esq <= dir){
             meio = (esq + dir) / 2;
-            if (numeroDaConta == this.arrayContas.get(meio).getNumeroDaConta())
+            String numeroContaString = Integer.toString(this.arrayContas.get(meio).getNumeroDaConta());
+            int numeroDaContaInt = Integer.parseInt(numeroContaString.substring(1));
+            if (numeroDaConta == numeroDaContaInt)
                 return meio;
             else{
-                if (numeroDaConta < this.arrayContas.get(meio).getNumeroDaConta())
+                if (numeroDaConta < numeroDaContaInt)
                     dir = meio - 1;
                 else
                     esq = meio + 1;
