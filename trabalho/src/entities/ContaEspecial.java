@@ -17,7 +17,7 @@ public class ContaEspecial extends Conta{
     }
 
     public double saldo() {
-        return super.getValorNaConta() + this.limite;
+        return this.getValorNaConta() + this.limite;
     }
 
     @Override

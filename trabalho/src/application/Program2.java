@@ -61,13 +61,16 @@ public class Program2 {
         while(i < (linhas.size())){
             linha = linhas.get(i);
             valorComSplit = linha.split(" - ");
+
             int number = Integer.parseInt(valorComSplit[0]);
             String numberString = "" + number;
             char firstLetterChar = numberString.charAt(0);
             int firstDigit = Integer.parseInt("" + firstLetterChar);
+
+
             if (firstDigit == 2) {
                 listaContas.inserirVetor(new ContaEspecial(Integer.parseInt(valorComSplit[0]), valorComSplit[1],
-                        valorComSplit[2], Double.parseDouble(valorComSplit[3])));
+                        valorComSplit[2], Double.parseDouble(valorComSplit[4])));
             } else {
                 listaContas.inserirVetor(new Conta(Integer.parseInt(valorComSplit[0]), valorComSplit[1],
                         valorComSplit[2]));

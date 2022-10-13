@@ -3,16 +3,16 @@ package entities;
 import interfaces.Transacao;
 
 public class Conta implements Transacao {
-    private String nome;
-    private String cpf;
     private int numeroDaConta;
+    private String cpf;
+    private String nome;
     private double valorNaConta;
 
     public Conta(int numeroDaConta, String cpf, String nome) {
         this.numeroDaConta = numeroDaConta;
         this.cpf = cpf;
         this.nome = nome;
-        this.valorNaConta = 10;
+        this.valorNaConta = 0.0;
     }
 
     public String getNome() {
@@ -73,6 +73,6 @@ public class Conta implements Transacao {
 
     @Override
     public String toString() {
-        return this.numeroDaConta + " - " + this.cpf + " - " + this.nome + " - " + this.saldo();
+        return this.numeroDaConta + " - " + this.cpf + " - " + this.nome + " - " + this.valorNaConta;
     }
 }
