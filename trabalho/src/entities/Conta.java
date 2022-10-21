@@ -8,11 +8,11 @@ public class Conta implements Transacao {
     private String nome;
     private double valorNaConta;
 
-    public Conta(int numeroDaConta, String cpf, String nome) {
+    public Conta(int numeroDaConta, String nome, String cpf, double valorNaConta) {
         this.numeroDaConta = numeroDaConta;
         this.cpf = cpf;
         this.nome = nome;
-        this.valorNaConta = 0.0;
+        this.valorNaConta = valorNaConta;
     }
 
     public String getNome() {
@@ -48,7 +48,7 @@ public class Conta implements Transacao {
     }
 
     public boolean saque(double valor) {
-        if(this.valorNaConta < valor) {
+        if(this.saldo() < valor) {
             return false;
         } else {
             this.valorNaConta -= valor;
@@ -57,11 +57,11 @@ public class Conta implements Transacao {
     }
 
     public boolean transferir(double valor, Conta contaRecebeTransferencia) {
-        if (this.valorNaConta < valor) {
+        if (this.saldo() < valor) {
             return false;
         } else {
-            this.valorNaConta -= valor;
-            contaRecebeTransferencia.valorNaConta += valor;
+            this.saque(valor);
+            contaRecebeTransferencia.deposito(valor);
             return true;
         }
     }
@@ -73,6 +73,6 @@ public class Conta implements Transacao {
 
     @Override
     public String toString() {
-        return this.numeroDaConta + " - " + this.cpf + " - " + this.nome + " - " + this.valorNaConta;
+        return this.numeroDaConta + ";" + this.cpf + ";" + this.nome + ";" + this.valorNaConta;
     }
 }

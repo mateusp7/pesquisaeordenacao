@@ -8,8 +8,8 @@ import java.util.ArrayList;
 public class CadConta implements Vetor {
     private ArrayList<Conta> arrayContas;
 
-    public CadConta(ArrayList<Conta> arrayContas) {
-        this.arrayContas = arrayContas;
+    public CadConta(int tamanho) {
+        this.arrayContas = new ArrayList<>(tamanho);
     }
 
     public void inserirVetor(Conta conta) {
@@ -38,12 +38,12 @@ public class CadConta implements Vetor {
         dir = this.arrayContas.size() - 1;
         while (esq <= dir){
             meio = (esq + dir) / 2;
-            String numeroContaString = Integer.toString(this.arrayContas.get(meio).getNumeroDaConta());
-            int numeroDaContaInt = Integer.parseInt(numeroContaString.substring(1));
-            if (numeroDaConta == numeroDaContaInt)
+            /*String numeroContaString = Integer.toString(this.arrayContas.get(meio).getNumeroDaConta());
+            int numeroDaContaInt = Integer.parseInt(numeroContaString.substring(1));*/
+            if (numeroDaConta == this.arrayContas.get(meio).getNumeroDaConta())
                 return meio;
             else{
-                if (numeroDaConta < numeroDaContaInt)
+                if (numeroDaConta < this.arrayContas.get(meio).getNumeroDaConta())
                     dir = meio - 1;
                 else
                     esq = meio + 1;
