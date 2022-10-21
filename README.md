@@ -3,6 +3,8 @@
 que nos foram ensinado</p>
 <p>Em primeiro plano, utilizamos os métodos de ordenação QUICKSORT e SHELLSORT com 15 arquivos de 500, 1000, 5000, 10000 e 50000 dados para ordenar e contar
 o tempo necessário para a execução do método.</p>
+<p>Posteriormente, iremos utilizar algum método de pesquisa para saber o tempo que o computador leva para encontrar um dado dependendo da forma como os elementos
+estiverem.</p>
 <h1>Imagens dos arquivos disponibilizados pela professora</h1>
 <img width=50% src="https://imgur.com/p4pPXrm.jpg"/>
 <br>
