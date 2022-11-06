@@ -7,16 +7,14 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
-
 import entities.Conta;
 import entities.ContaEspecial;
 import estrutura.CadConta;
 
-import java.util.ArrayList;
-
 public class Program {
     static int[] vetorQuantidades = {500, 1000, 5000, 10000, 50000};
     static String[] vetorNomes = {"alea", "inv", "ord"};
+    static Path pathToFiles = Paths.get("../arquivosOrdenados/");
 
     public static void main(String[] args) {
         try {
@@ -73,24 +71,27 @@ public class Program {
     }
 
     public static void gravarContasESalvarAlteracoes(CadConta cadContaLista, int i, int j) throws IOException {
-        FileWriter escrever = new FileWriter( "../arquivosOrdenados/cliente" + vetorQuantidades[i] +
-                vetorNomes[j] + "quicksort" + ".txt", StandardCharsets.UTF_8);
-        try {
-            for (Conta c : cadContaLista.getArrayContas()) {
-                if (!(c instanceof ContaEspecial)) {
-                    escrever.write(c + "\n");
-                }
-                if (c instanceof ContaEspecial) {
-                    ContaEspecial aux = (ContaEspecial) c;
-                    escrever.write(c + ";" + aux.getLimite() +"\n");
-                }
-            }
-        }
-        catch (Exception e) {
-            System.out.println("\n======== Não foi possível gravar as contas ========\n");
-        }
-        escrever.close();
+        if (!(Files.exists(pathToFiles))) {
+            Files.createDirectories(Paths.get("../arquivosOrdenados/"));
+        } else {
+            FileWriter escrever = new FileWriter("../arquivosOrdenados/cliente" + vetorQuantidades[i] +
+                    vetorNomes[j] + "quicksort" + ".txt", StandardCharsets.UTF_8);
 
+            try {
+                for (Conta c : cadContaLista.getArrayContas()) {
+                    if (!(c instanceof ContaEspecial)) {
+                        escrever.write(c + "\n");
+                    }
+                    if (c instanceof ContaEspecial) {
+                        ContaEspecial aux = (ContaEspecial) c;
+                        escrever.write(c + ";" + aux.getLimite() + "\n");
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println("\n======== Não foi possível gravar as contas ========\n");
+            }
+            escrever.close();
+        }
     }
 
 }
