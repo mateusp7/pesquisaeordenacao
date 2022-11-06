@@ -21,7 +21,7 @@ public class Program {
     public static void main(String[] args) {
         try {
             lerContasDoArquivoEInserirNoArray();
-            System.out.println("\n======== Processos realizados ========\n");
+            System.out.println("\n======== Processos usando quicksort foram realizados com sucesso ========\n");
         }catch (Exception e) {
             System.out.println("\n====== Não foi possível realizar os procedimentos ======\n");
         }
@@ -30,9 +30,10 @@ public class Program {
     public static void lerContasDoArquivoEInserirNoArray() throws IOException {
         Path path;
         CadConta listaCad;
+        int i, j;
         long start, end;
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 3; j++) {
+        for (i = 0; i < 5; i++) {
+            for (j = 0; j < 3; j++) {
                 // Pegando o path
                 path = Paths.get("../cliente" + vetorQuantidades[i] + vetorNomes[j] + ".txt");
                 // Criando um arraylist
@@ -43,11 +44,11 @@ public class Program {
                 carregarVetor(listaCad, path);
 
                 start = System.currentTimeMillis(); // get time
-                listaCad.shellsort(listaCad.getArrayContas());
+                listaCad.quicksort(listaCad.getArrayContas());
                 end = System.currentTimeMillis();
                 System.out.println("Tempo para execução do arquivo" + vetorQuantidades[i] + vetorNomes[j] + ": " + (end - start) + "ms");
 
-                gravarContasESalvarAlteracoes(listaCad);
+                gravarContasESalvarAlteracoes(listaCad, i, j);
             }
         }
     }
@@ -71,28 +72,25 @@ public class Program {
         }
     }
 
-    public static void gravarContasESalvarAlteracoes(CadConta cadContaLista) throws IOException {
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 3; j++) {
-                FileWriter escrever = new FileWriter( "../arquivosOrdenados/cliente" + vetorQuantidades[i] +
-                        vetorNomes[j] + "shellSort" + ".txt", StandardCharsets.UTF_8);
-                try {
-                    for (Conta c : cadContaLista.getArrayContas()) {
-                        if (!(c instanceof ContaEspecial)) {
-                            escrever.write(c + "\n");
-                        }
-                        if (c instanceof ContaEspecial) {
-                            ContaEspecial aux = (ContaEspecial) c;
-                            escrever.write(c + ";" + aux.saldo() +"\n");
-                        }
-                    }
+    public static void gravarContasESalvarAlteracoes(CadConta cadContaLista, int i, int j) throws IOException {
+        FileWriter escrever = new FileWriter( "../arquivosOrdenados/cliente" + vetorQuantidades[i] +
+                vetorNomes[j] + "quicksort" + ".txt", StandardCharsets.UTF_8);
+        try {
+            for (Conta c : cadContaLista.getArrayContas()) {
+                if (!(c instanceof ContaEspecial)) {
+                    escrever.write(c + "\n");
                 }
-                catch (Exception e) {
-                    System.out.println("\n======== Não foi possível gravar as contas ========\n");
+                if (c instanceof ContaEspecial) {
+                    ContaEspecial aux = (ContaEspecial) c;
+                    escrever.write(c + ";" + aux.getLimite() +"\n");
                 }
-                escrever.close();
             }
         }
+        catch (Exception e) {
+            System.out.println("\n======== Não foi possível gravar as contas ========\n");
+        }
+        escrever.close();
+
     }
 
 }

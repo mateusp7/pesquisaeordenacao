@@ -64,11 +64,20 @@ public class CadConta implements Vetor {
             for (i=h; i < arrayContas.size(); i++){
                 temp = arrayContas.get(i);
                 j = i;
-                while (arrayContas.get(j-h).getNumeroDaConta() > temp.getNumeroDaConta()){
-                    arrayContas.set(j, arrayContas.get(j-h));
-                    j -= h;
-                    if (j < h)
-                        break;
+                if (arrayContas.get(j-h).getNome().compareTo(temp.getNome()) == 0) {
+                    while (arrayContas.get(j-h).getNumeroDaConta() > temp.getNumeroDaConta()){
+                        arrayContas.set(j, arrayContas.get(j-h));
+                        j -= h;
+                        if (j < h)
+                            break;
+                    }
+                } else {
+                    while (arrayContas.get(j-h).getNome().compareTo(temp.getNome()) > 0){
+                        arrayContas.set(j, arrayContas.get(j-h));
+                        j -= h;
+                        if (j < h)
+                            break;
+                    }
                 }
                 arrayContas.set(j, temp);
             }

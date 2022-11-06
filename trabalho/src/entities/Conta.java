@@ -73,6 +73,6 @@ public class Conta implements Transacao {
 
     @Override
     public String toString() {
-        return this.numeroDaConta + ";" + this.cpf + ";" + this.nome + ";" + this.valorNaConta;
+        return this.numeroDaConta + ";" + this.nome + ";" + this.cpf + ";" + this.valorNaConta;
     }
 }

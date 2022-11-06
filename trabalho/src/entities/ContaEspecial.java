@@ -23,6 +23,6 @@ public class ContaEspecial extends Conta{
     @Override
     public String toString() {
         return super.getNumeroDaConta() + ";" + super.getNome() + ";" + super.getCpf() + ";" +
-                super.getValorNaConta() + ";" +  this.saldo();
+                super.saldo() + ";" +  this.getLimite();
     }
 }
