@@ -20,7 +20,7 @@ public class Program {
         try {
             lerContasDoArquivoEInserirNoArray();
             System.out.println("\n======== Processos usando quicksort foram realizados com sucesso ========\n");
-        }catch (Exception e) {
+        }catch (IndexOutOfBoundsException | IOException e) {
             System.out.println("\n====== Não foi possível realizar os procedimentos ======\n");
         }
     }
@@ -44,7 +44,7 @@ public class Program {
                 start = System.currentTimeMillis(); // get time
                 listaCad.quicksort(listaCad.getArrayContas());
                 end = System.currentTimeMillis();
-                System.out.println("Tempo para execução do arquivo" + vetorQuantidades[i] + vetorNomes[j] + ": " + (end - start) + "ms");
+                System.out.println("Tempo para execução do arquivo" + vetorQuantidades[i] + vetorNomes[j] + " " + (end - start) + "ms");
 
                 gravarContasESalvarAlteracoes(listaCad, i, j);
             }
@@ -76,7 +76,6 @@ public class Program {
         } else {
             FileWriter escrever = new FileWriter("../arquivosOrdenados/cliente" + vetorQuantidades[i] +
                     vetorNomes[j] + "quicksort" + ".txt", StandardCharsets.UTF_8);
-
             try {
                 for (Conta c : cadContaLista.getArrayContas()) {
                     if (!(c instanceof ContaEspecial)) {

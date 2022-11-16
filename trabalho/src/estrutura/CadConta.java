@@ -64,7 +64,8 @@ public class CadConta implements Vetor {
             for (i=h; i < arrayContas.size(); i++){
                 temp = arrayContas.get(i);
                 j = i;
-                if (arrayContas.get(j-h).getNome().compareTo(temp.getNome()) == 0) {
+                if (arrayContas.get(j-h).getNome().compareTo(temp.getNome()) == 0 &&
+                        arrayContas.get(j-h).getCpf().compareTo(temp.getCpf()) == 0)  {
                     while (arrayContas.get(j-h).getNumeroDaConta() > temp.getNumeroDaConta()){
                         arrayContas.set(j, arrayContas.get(j-h));
                         j -= h;
@@ -88,23 +89,35 @@ public class CadConta implements Vetor {
         ordena (arrayContas, 0, arrayContas.size() - 1);
     }
 
-    private void ordena (ArrayList<Conta> arrayContas,int esq, int dir) {
-        int pivo, i = esq, j = dir;
+    private void ordena (ArrayList<Conta> arrayContas, int esq, int dir) {
+        int i = esq, j = dir;
         Conta temp;
-        pivo = arrayContas.get((i + j) / 2).getNumeroDaConta();
-        do {
-            while (arrayContas.get(i).getNumeroDaConta() < pivo) i++;
-            while (arrayContas.get(j).getNumeroDaConta() > pivo) j--;
-            if (i <= j) {
-                temp = arrayContas.get(i);
-                arrayContas.set(i, arrayContas.get(j));
-                arrayContas.set(j, temp);
-                i++;
-                j--;
+        Conta pivo = arrayContas.get((i + j) / 2);
+        try {
+            do {
+                while (arrayContas.get(i).comparar(pivo) < 0) {
+                    i++;
+                }
+                while (arrayContas.get(j).comparar(pivo) > 0) {
+                    j--;
+                }
+                if (i <= j) {
+                    temp = arrayContas.get(i);
+                    arrayContas.set(i, arrayContas.get(j));
+                    arrayContas.set(j, temp);
+                    i++;
+                    j--;
+                }
+            } while (i <= j);
+            if (esq < j ) {
+                ordena(arrayContas, esq, j);
             }
-        } while (i <= j);
-        if (esq < j ) ordena(arrayContas, esq, j);
-        if (dir > i ) ordena(arrayContas, i, dir);
+            if (dir > i ) {
+                ordena(arrayContas, i, dir);
+            }
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Estourou");
+        }
     }
 
 
