@@ -67,7 +67,6 @@ public class Conta implements Transacao {
     }
 
     public int comparar(Conta contaPivo) {
-
         if (this.getNome().compareTo(contaPivo.getNome()) > 0) {
             return 1;
         } else if (this.getNome().compareTo(contaPivo.getNome()) < 0) {
@@ -82,7 +81,6 @@ public class Conta implements Transacao {
             return -1;
         }
         return 0;
-
     }
 
     @Override
