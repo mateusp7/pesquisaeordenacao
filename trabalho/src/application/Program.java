@@ -19,7 +19,7 @@ public class Program {
     public static void main(String[] args) {
         try {
             lerContasDoArquivoEInserirNoArray();
-            System.out.println("\n======== Processos usando quicksort foram realizados com sucesso ========\n");
+            System.out.println("\n======== Processos usando shellsort foram realizados com sucesso ========\n");
         }catch (IndexOutOfBoundsException | IOException e) {
             System.out.println("\n====== Não foi possível realizar os procedimentos ======\n");
         }
@@ -42,7 +42,7 @@ public class Program {
                 carregarVetor(listaCad, path);
 
                 start = System.currentTimeMillis(); // get time
-                listaCad.quicksort(listaCad.getArrayContas());
+                listaCad.shellsort(listaCad.getArrayContas());
                 end = System.currentTimeMillis();
                 System.out.println("Tempo para execução do arquivo" + vetorQuantidades[i] + vetorNomes[j] + " " + (end - start) + "ms");
 
@@ -75,7 +75,7 @@ public class Program {
             Files.createDirectories(Paths.get("../arquivosOrdenados/"));
         } else {
             FileWriter escrever = new FileWriter("../arquivosOrdenados/cliente" + vetorQuantidades[i] +
-                    vetorNomes[j] + "quicksort" + ".txt", StandardCharsets.UTF_8);
+                    vetorNomes[j] + "shellsort" + ".txt", StandardCharsets.UTF_8);
             try {
                 for (Conta c : cadContaLista.getArrayContas()) {
                     if (!(c instanceof ContaEspecial)) {
