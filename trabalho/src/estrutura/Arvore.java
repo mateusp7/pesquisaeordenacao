@@ -10,6 +10,10 @@ public class Arvore {
         this.raiz = null;
     }
 
+    public NoArvore getNoArvore() {
+        return this.raiz;
+    }
+
     public boolean pesquisa (String nome){
         NoArvore temp;
 
@@ -36,15 +40,8 @@ public class Arvore {
     }
 
     public boolean insere (Conta elem){
-        boolean existe;
-
-        existe = this.pesquisa (elem.getNome());
-        if (existe)
-            return false;
-        else{
-            this.raiz = this.insere (elem, this.raiz);
-            return true;
-        }
+        this.raiz = this.insere (elem, this.raiz);
+        return true;
     }
     private NoArvore insere (Conta elem, NoArvore no){
         NoArvore novo;
@@ -113,7 +110,6 @@ public class Arvore {
         return temp;
     }
 
-
     private void Balancear (CadConta vet, Arvore temp, int inic, int fim) {
         int meio;
         if (fim >= inic) {
@@ -123,7 +119,4 @@ public class Arvore {
             this.Balancear(vet, temp, meio + 1, fim);
         }
     }
-
-
-
 }

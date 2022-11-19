@@ -1,4 +1,5 @@
 package application;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -9,23 +10,93 @@ import java.util.*;
 
 import entities.Conta;
 import entities.ContaEspecial;
+import estrutura.Arvore;
 import estrutura.CadConta;
 
 public class Program {
     static int[] vetorQuantidades = {500, 1000, 5000, 10000, 50000};
     static String[] vetorNomes = {"alea", "inv", "ord"};
     static Path pathToFiles = Paths.get("../arquivosOrdenados/");
-
+    static Path pathNomes = Paths.get("../nome.txt");
     public static void main(String[] args) {
         try {
+            lerArquivosEInserirNaArvore();
+        } catch (IndexOutOfBoundsException | IOException e) {
+            System.out.println("\n====== Não foi possível realizar os procedimentos ======\n");
+        }
+        /*try {
             lerContasDoArquivoEInserirNoArray();
             System.out.println("\n======== Processos usando shellsort foram realizados com sucesso ========\n");
         }catch (IndexOutOfBoundsException | IOException e) {
             System.out.println("\n====== Não foi possível realizar os procedimentos ======\n");
+        }*/
+    }
+
+    public static void lerArquivosEInserirNaArvore() throws IOException {
+        Path path;
+        Arvore arvoreList;
+        int i, j;
+        long start, end;
+        CadConta cadConta = new CadConta(500);
+        path = Paths.get("../cliente500alea.txt");
+        arvoreList = new Arvore();
+        carregarArvore(arvoreList, path);
+        arvoreList.CamCentral(cadConta);
+        System.out.println(arvoreList.ArvoreBalanceada(cadConta));
+    }
+    public static void carregarArvore(Arvore arvoreList, Path path) throws IOException {
+        List<String> linhas = Files.readAllLines(path, StandardCharsets.UTF_8);
+        int i = 0;
+        String linha;
+        String[] valorComSplit;
+        while(i < (linhas.size())){
+            linha = linhas.get(i);
+            valorComSplit = linha.split(";");
+            if (valorComSplit.length == 5) {
+                arvoreList.insere(new ContaEspecial(Integer.parseInt(valorComSplit[0]), (valorComSplit[1]),
+                        (valorComSplit[2]), Double.parseDouble(valorComSplit[3]), Double.parseDouble(valorComSplit[4])));
+            } else if (valorComSplit.length == 4){
+                arvoreList.insere(new Conta(Integer.parseInt(valorComSplit[0]), (valorComSplit[1]),
+                        (valorComSplit[2]), Double.parseDouble(valorComSplit[3])));
+            }
+            i++;
         }
     }
 
-    public static void lerContasDoArquivoEInserirNoArray() throws IOException {
+    public static void pesquisarNaArvore(Arvore arvoreList) throws IOException {
+        List<String> linhas = Files.readAllLines(pathNomes, StandardCharsets.UTF_8);
+        int i = 0;
+        String linha;
+        FileWriter escrever = new FileWriter("../arquivosNomesABB/clienteABB500alea.txt", StandardCharsets.UTF_8);
+        while (i < linhas.size()) {
+            linha = linhas.get(i);
+            if (arvoreList.pesquisa(linha)) {
+                escrever.write("Nome" + arvoreList.getNoArvore().getInfo().getNome() + "\n");
+            } else {
+                escrever.write("Nome" + arvoreList.getNoArvore().getInfo().getNome());
+            }
+        }
+    }
+    /*public static void carregarVetor(CadConta lista, Path path) throws IOException {
+        List<String> linhas = Files.readAllLines(path, StandardCharsets.UTF_8);
+        int i = 0;
+        String linha;
+        String[] valorComSplit;
+        while(i < (linhas.size())){
+            linha = linhas.get(i);
+            valorComSplit = linha.split(";");
+            if (valorComSplit.length == 5) {
+                lista.inserirVetor(new ContaEspecial(Integer.parseInt(valorComSplit[0]), (valorComSplit[1]),
+                        (valorComSplit[2]), Double.parseDouble(valorComSplit[3]), Double.parseDouble(valorComSplit[4])));
+            } else if (valorComSplit.length == 4){
+                lista.inserirVetor(new Conta(Integer.parseInt(valorComSplit[0]), (valorComSplit[1]),
+                        (valorComSplit[2]), Double.parseDouble(valorComSplit[3])));
+            }
+            i++;
+        }
+    }*/
+
+    /*public static void lerContasDoArquivoEInserirNoArray() throws IOException {
         Path path;
         CadConta listaCad;
         int i, j;
@@ -51,24 +122,6 @@ public class Program {
         }
     }
 
-    public static void carregarVetor(CadConta lista, Path path) throws IOException {
-        List<String> linhas = Files.readAllLines(path, StandardCharsets.UTF_8);
-        int i = 0;
-        String linha;
-        String[] valorComSplit;
-        while(i < (linhas.size())){
-            linha = linhas.get(i);
-            valorComSplit = linha.split(";");
-            if (valorComSplit.length == 5) {
-                lista.inserirVetor(new ContaEspecial(Integer.parseInt(valorComSplit[0]), (valorComSplit[1]),
-                        (valorComSplit[2]), Double.parseDouble(valorComSplit[3]), Double.parseDouble(valorComSplit[4])));
-            } else if (valorComSplit.length == 4){
-                lista.inserirVetor(new Conta(Integer.parseInt(valorComSplit[0]), (valorComSplit[1]),
-                        (valorComSplit[2]), Double.parseDouble(valorComSplit[3])));
-            }
-            i++;
-        }
-    }
 
     public static void gravarContasESalvarAlteracoes(CadConta cadContaLista, int i, int j) throws IOException {
         if (!(Files.exists(pathToFiles))) {
@@ -91,6 +144,6 @@ public class Program {
             }
             escrever.close();
         }
-    }
+    }*/
 
 }
