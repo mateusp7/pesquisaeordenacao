@@ -1,4 +1,5 @@
 package application;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -65,18 +66,23 @@ public class Program {
 
     public static void pesquisarNaArvore(Arvore arvoreList, CadConta cadConta) throws IOException {
         List<String> linhas = Files.readAllLines(pathNomes, StandardCharsets.UTF_8);
-        FileWriter escrever = new FileWriter("../arquivosNomesABB/clienteABB500alea.txt", StandardCharsets.UTF_8);
-        int i = 0;
-        String linha;
-        while (i < linhas.size()) {
-            linha = linhas.get(i);
-            if (arvoreList.pesquisa(linha)) {
-                escrever.write("Nome: " + cadConta.getConta(i).getNome() + "\n");
-                escrever.write("Conta: " + cadConta.getConta(i).getNumeroDaConta() + "Saldo" + cadConta.getConta(i).getValorNaConta() + "\n");
-            } else {
-                escrever.write("Nome: " + arvoreList.getNoArvore().getInfo().getNome());
+        FileWriter escrever;
+        try {
+            escrever = new FileWriter("../arquivosNomesABB/clienteABB500alea.txt", StandardCharsets.UTF_8);
+            int i = 0;
+            String linha;
+            while (i < linhas.size()) {
+                linha = linhas.get(i);
+                if (arvoreList.pesquisa(linha)) {
+                    escrever.write("Nome: " + cadConta.getConta(i).getNome() + "\n");
+                    escrever.write("Conta: " + cadConta.getConta(i).getNumeroDaConta() + "Saldo" + cadConta.getConta(i).getValorNaConta() + "\n");
+                } else {
+                    escrever.write("Nome: " + arvoreList.getNoArvore().getInfo().getNome());
+                }
+                i++;
             }
-            i++;
+        } catch (FileNotFoundException e) {
+            System.out.println("Arquivo não encontrado");
         }
     }
     /*public static void carregarVetor(CadConta lista, Path path) throws IOException {
