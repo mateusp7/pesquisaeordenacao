@@ -42,7 +42,7 @@ public class Program {
         arvoreList = new Arvore();
         carregarArvore(arvoreList, path);
         arvoreList.CamCentral(cadConta);
-        System.out.println(arvoreList.ArvoreBalanceada(cadConta));
+        pesquisarNaArvore(arvoreList, cadConta);
     }
     public static void carregarArvore(Arvore arvoreList, Path path) throws IOException {
         List<String> linhas = Files.readAllLines(path, StandardCharsets.UTF_8);
@@ -63,18 +63,20 @@ public class Program {
         }
     }
 
-    public static void pesquisarNaArvore(Arvore arvoreList) throws IOException {
+    public static void pesquisarNaArvore(Arvore arvoreList, CadConta cadConta) throws IOException {
         List<String> linhas = Files.readAllLines(pathNomes, StandardCharsets.UTF_8);
+        FileWriter escrever = new FileWriter("../arquivosNomesABB/clienteABB500alea.txt", StandardCharsets.UTF_8);
         int i = 0;
         String linha;
-        FileWriter escrever = new FileWriter("../arquivosNomesABB/clienteABB500alea.txt", StandardCharsets.UTF_8);
         while (i < linhas.size()) {
             linha = linhas.get(i);
             if (arvoreList.pesquisa(linha)) {
-                escrever.write("Nome" + arvoreList.getNoArvore().getInfo().getNome() + "\n");
+                escrever.write("Nome: " + cadConta.getConta(i).getNome() + "\n");
+                escrever.write("Conta: " + cadConta.getConta(i).getNumeroDaConta() + "Saldo" + cadConta.getConta(i).getValorNaConta() + "\n");
             } else {
-                escrever.write("Nome" + arvoreList.getNoArvore().getInfo().getNome());
+                escrever.write("Nome: " + arvoreList.getNoArvore().getInfo().getNome());
             }
+            i++;
         }
     }
     /*public static void carregarVetor(CadConta lista, Path path) throws IOException {
