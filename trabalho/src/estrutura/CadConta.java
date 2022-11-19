@@ -32,7 +32,7 @@ public class CadConta implements Vetor {
         return this.arrayContas;
     }
 
-    public int pesqBinaria (int numeroDaConta) {
+    public int pesqBinaria (String nome) {
         int meio, esq, dir;
         esq = 0;
         dir = this.arrayContas.size() - 1;
@@ -40,10 +40,10 @@ public class CadConta implements Vetor {
             meio = (esq + dir) / 2;
             /*String numeroContaString = Integer.toString(this.arrayContas.get(meio).getNumeroDaConta());
             int numeroDaContaInt = Integer.parseInt(numeroContaString.substring(1));*/
-            if (numeroDaConta == this.arrayContas.get(meio).getNumeroDaConta())
+            if (nome.equalsIgnoreCase(this.arrayContas.get(meio).getNome()))
                 return meio;
             else{
-                if (numeroDaConta < this.arrayContas.get(meio).getNumeroDaConta())
+                if (nome.compareTo(this.arrayContas.get(meio).getNome()) < 0)
                     dir = meio - 1;
                 else
                     esq = meio + 1;

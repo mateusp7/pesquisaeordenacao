@@ -10,5 +10,5 @@ public interface Vetor {
     void inserirVetor(Conta conta);
     void quicksort(ArrayList<Conta> arrayContas);
     void shellsort (ArrayList<Conta> arrayContas);
-    int pesqBinaria (int numeroDaConta);
+    int pesqBinaria (String nome);
 }

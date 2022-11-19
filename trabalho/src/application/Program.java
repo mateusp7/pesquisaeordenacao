@@ -7,6 +7,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.SQLOutput;
 import java.util.*;
 
 import entities.Conta;
@@ -42,10 +43,15 @@ public class Program {
         CadConta cadConta = new CadConta(500);
         path = Paths.get("../cliente500alea.txt");
         arvoreList = new Arvore();
+        start = System.currentTimeMillis();
+
         carregarArvore(arvoreList, path);
-        arvoreList.CamCentral(cadConta);
+        System.out.println(arvoreList.CamCentral(cadConta));
+        arvoreList.ArvoreBalanceada(cadConta);
         pesquisarNaArvore(arvoreList, cadConta);
 
+        end = System.currentTimeMillis();
+        System.out.println("Tempo para execução do arquivo " + (end - start) + "ms");
     }
     public static void carregarArvore(Arvore arvoreList, Path path) throws IOException {
         List<String> linhas = Files.readAllLines(path, StandardCharsets.UTF_8);
@@ -73,17 +79,14 @@ public class Program {
             escrever = new FileWriter("../arquivosNomesABB/clienteABB500alea.txt", StandardCharsets.UTF_8);
             int i = 0;
             String linha;
-            while (i < linhas.size()) {
+            while (i < (linhas.size())) {
                 linha = linhas.get(i);
-                System.out.println(linha);
-                System.out.println(arvoreList.pesquisa(linha));
                 if (arvoreList.pesquisa(linha)) {
-                    escrever.write("\nNome: " + cadConta.getConta(i).getNome() + "\n");
-                    escrever.write("\nConta: " + cadConta.getConta(i).getNumeroDaConta());
-                    escrever.write("    Saldo: " + cadConta.getConta(i).getValorNaConta() + "\n");
-                } else {
-                    escrever.write("Nome: " + cadConta.getConta(i).getNome() + "\n");
-                    escrever.write("NÃO HÁ NENHUMA COMPRA COM O NOME" + cadConta.getConta(i).getNome() + "\n");
+                    escrever.write("\nNOME " + cadConta.getArrayContas().get(i).getNome() + "\n");
+                    escrever.write("\nConta " + cadConta.getArrayContas().get(i).getNumeroDaConta() + "    Saldo: " + cadConta.getArrayContas().get(i).getValorNaConta() + "\n");
+                } if (!arvoreList.pesquisa(linha)) {
+                    escrever.write("\nNOME " + linha + "\n");
+                    escrever.write("\n\"NÃO HÁ NENHUMA OCORRÊNCIA COM O NOME " + linha + "\n");
                 }
                 i++;
             }
@@ -91,6 +94,7 @@ public class Program {
             System.out.println("Arquivo não encontrado");
         }
     }
+
     /*public static void carregarVetor(CadConta lista, Path path) throws IOException {
         List<String> linhas = Files.readAllLines(path, StandardCharsets.UTF_8);
         int i = 0;

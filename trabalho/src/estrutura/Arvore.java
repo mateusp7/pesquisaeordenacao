@@ -10,10 +10,6 @@ public class Arvore {
         this.raiz = null;
     }
 
-    public NoArvore getNoArvore() {
-        return this.raiz;
-    }
-
     public boolean pesquisa (String nome){
         NoArvore temp;
 
