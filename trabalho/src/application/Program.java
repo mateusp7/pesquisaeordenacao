@@ -22,6 +22,7 @@ public class Program {
     public static void main(String[] args) {
         try {
             lerArquivosEInserirNaArvore();
+            System.out.println("Processos finalizados");
         } catch (IndexOutOfBoundsException | IOException e) {
             System.out.println("\n====== Não foi possível realizar os procedimentos ======\n");
         }
@@ -44,6 +45,7 @@ public class Program {
         carregarArvore(arvoreList, path);
         arvoreList.CamCentral(cadConta);
         pesquisarNaArvore(arvoreList, cadConta);
+
     }
     public static void carregarArvore(Arvore arvoreList, Path path) throws IOException {
         List<String> linhas = Files.readAllLines(path, StandardCharsets.UTF_8);
@@ -73,11 +75,15 @@ public class Program {
             String linha;
             while (i < linhas.size()) {
                 linha = linhas.get(i);
+                System.out.println(linha);
+                System.out.println(arvoreList.pesquisa(linha));
                 if (arvoreList.pesquisa(linha)) {
-                    escrever.write("Nome: " + cadConta.getConta(i).getNome() + "\n");
-                    escrever.write("Conta: " + cadConta.getConta(i).getNumeroDaConta() + "Saldo" + cadConta.getConta(i).getValorNaConta() + "\n");
+                    escrever.write("\nNome: " + cadConta.getConta(i).getNome() + "\n");
+                    escrever.write("\nConta: " + cadConta.getConta(i).getNumeroDaConta());
+                    escrever.write("    Saldo: " + cadConta.getConta(i).getValorNaConta() + "\n");
                 } else {
-                    escrever.write("Nome: " + arvoreList.getNoArvore().getInfo().getNome());
+                    escrever.write("Nome: " + cadConta.getConta(i).getNome() + "\n");
+                    escrever.write("NÃO HÁ NENHUMA COMPRA COM O NOME" + cadConta.getConta(i).getNome() + "\n");
                 }
                 i++;
             }
