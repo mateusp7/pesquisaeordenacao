@@ -46,8 +46,8 @@ public class Program {
         start = System.currentTimeMillis();
 
         carregarArvore(arvoreList, path);
-        System.out.println(arvoreList.CamCentral(cadConta));
-        arvoreList.ArvoreBalanceada(cadConta);
+        arvoreList.CamCentral(cadConta);
+        arvoreList = arvoreList.ArvoreBalanceada(cadConta);
         pesquisarNaArvore(arvoreList, cadConta);
 
         end = System.currentTimeMillis();
@@ -72,7 +72,7 @@ public class Program {
         }
     }
 
-    public static void pesquisarNaArvore(Arvore arvoreList, CadConta cadConta) throws IOException {
+    public static void pesquisarNaArvore(Arvore arvore, CadConta cadConta) throws IOException {
         List<String> linhas = Files.readAllLines(pathNomes, StandardCharsets.UTF_8);
         FileWriter escrever;
         try {
@@ -81,17 +81,27 @@ public class Program {
             String linha;
             while (i < (linhas.size())) {
                 linha = linhas.get(i);
-                if (arvoreList.pesquisa(linha)) {
+                System.out.println(linha);
+                if (arvore.pesquisa(linha)) {
+                    escrever.write("Nome: " + linha + "\n");
+                    escrever.write("Conta: " + cadConta.picAccount(linha).getNumeroDaConta() + "\n");
+                    escrever.write("Saldo: " + cadConta.picAccount(linha).getValorNaConta() + "\n");
+                } else if (!(arvore.pesquisa(linha))) {
+                    escrever.write("\n\nNome: " + linha + "\n");
+                    escrever.write("NÃO HÁ NENHUMA OCORRÊNCIA COM O NOME " + linha + "\n\n");
+                }
+                /*if (arvoreList.pesquisa(linha)) {
                     escrever.write("\nNOME " + cadConta.getArrayContas().get(i).getNome() + "\n");
                     escrever.write("\nConta " + cadConta.getArrayContas().get(i).getNumeroDaConta() + "    Saldo: " + cadConta.getArrayContas().get(i).getValorNaConta() + "\n");
                 } if (!arvoreList.pesquisa(linha)) {
                     escrever.write("\nNOME " + linha + "\n");
                     escrever.write("\n\"NÃO HÁ NENHUMA OCORRÊNCIA COM O NOME " + linha + "\n");
-                }
+                }*/
                 i++;
             }
+            escrever.close();
         } catch (FileNotFoundException e) {
-            System.out.println("Arquivo não encontrado");
+            System.out.println(e);
         }
     }
 

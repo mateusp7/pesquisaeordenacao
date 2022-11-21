@@ -52,6 +52,15 @@ public class CadConta implements Vetor {
         return -1;
     }
 
+    public Conta picAccount(String nomeConta) {
+        for (Conta conta : this.arrayContas) {
+            if (conta.getNome().equalsIgnoreCase(nomeConta)) {
+                return conta;
+            }
+        }
+        return null;
+    }
+
     public void shellsort (ArrayList<Conta> arrayContas){
         int i, j, h;
         Conta temp;
