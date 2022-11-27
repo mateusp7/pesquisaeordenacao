@@ -13,10 +13,6 @@ public class Arvore {
         this.raiz = null;
     }
 
-    public NoArvore getNoArvore() {
-        return this.raiz;
-    }
-
     public ArrayList<Conta> pesquisa (String nome){
         ArrayList<Conta> temp;
 

@@ -3,7 +3,6 @@ package dados;
 import entities.Conta;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 public class NoArvore {
         private ArrayList<Conta> info;
