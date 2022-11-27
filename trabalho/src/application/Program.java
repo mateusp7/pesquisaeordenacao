@@ -42,20 +42,25 @@ public class Program {
         Arvore arvoreList;
         int i, j;
         long start, end;
-        CadConta cadConta = new CadConta(500);
-        path = Paths.get("../cliente500alea.txt");
-        ArrayList<ArrayList<Conta>> array = new ArrayList<>();
-        arvoreList = new Arvore();
-        start = System.currentTimeMillis();
-
-        carregarArvore(arvoreList, path);
-        arvoreList.CamCentral(array);
-        arvoreList.ArvoreBalanceada(array);
-        pesquisarNaArvoreEDevolverParaOArquivo(arvoreList);
-        end = System.currentTimeMillis();
-
-        System.out.println("Tempo para execução do arquivo " + (end - start) + "ms");
+        for (i = 0; i < 5; i++) {
+            for (j = 0; j < 3; j++) {
+                // Pegar o path
+                path = Paths.get("../cliente" + vetorQuantidades[i] + vetorNomes[j] + ".txt");
+                // Criando um arrayList
+                ArrayList<ArrayList<Conta>> array = new ArrayList<>();
+                // Carregando a arvore
+                arvoreList = new Arvore();
+                start = System.currentTimeMillis();
+                carregarArvore(arvoreList, path);
+                arvoreList.CamCentral(array);
+                arvoreList.ArvoreBalanceada(array);
+                pesquisarNaArvoreEDevolverParaOArquivo(arvoreList, i, j);
+                end = System.currentTimeMillis();
+                System.out.println("Tempo para execução do arquivo " + (end - start) + "ms");
+            }
+        }
     }
+
     public static void carregarArvore(Arvore arvoreList, Path path) throws IOException {
         List<String> linhas = Files.readAllLines(path, StandardCharsets.UTF_8);
         int i = 0;
@@ -75,15 +80,16 @@ public class Program {
         }
     }
 
-    public static void pesquisarNaArvoreEDevolverParaOArquivo(Arvore arvore) throws IOException {
+    public static void pesquisarNaArvoreEDevolverParaOArquivo(Arvore arvore, int i, int j) throws IOException {
         List<String> linhas = Files.readAllLines(pathNomes, StandardCharsets.UTF_8);
         FileWriter escrever;
         try {
-            escrever = new FileWriter("../arquivosNomesABB/clienteABB500alea.txt", StandardCharsets.UTF_8);
-            int i = 0;
+            escrever = new FileWriter("../arquivosNomesABB/clienteABB" + vetorQuantidades[i] +
+                    vetorNomes[j] + ".txt", StandardCharsets.UTF_8);
+            int k = 0;
             String linha;
-            while (i < (linhas.size())) {
-                linha = linhas.get(i);
+            while (k < (linhas.size())) {
+                linha = linhas.get(k);
                 ArrayList<Conta> dado = arvore.pesquisa(linha);
                 if (dado != null) {
                     for (Conta conta : dado) {
@@ -93,7 +99,7 @@ public class Program {
                 } else {
                     escrever.write("\n" + linha + " não existe na árvore\n");
                 }
-                i++;
+                k++;
             }
             escrever.close();
         } catch (FileNotFoundException e) {
