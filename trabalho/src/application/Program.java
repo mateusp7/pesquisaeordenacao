@@ -7,6 +7,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Array;
 import java.sql.SQLOutput;
 import java.util.*;
 
@@ -43,17 +44,16 @@ public class Program {
         long start, end;
         CadConta cadConta = new CadConta(500);
         path = Paths.get("../cliente500ord.txt");
+        ArrayList<ArrayList<Conta>> array = new ArrayList<>();
+        ArrayList<ArrayList<Conta>> array2 = new ArrayList<>();
         arvoreList = new Arvore();
         start = System.currentTimeMillis();
 
-        carregarArvore(arvoreList, path);
-        System.out.println(arvoreList.CamCentral(cadConta));
-        //pesquisarNaArvoreEDevolverParaOArquivo(arvoreList);
-        //pesquisarNaArvoreEDevolverParaOArquivo(arvoreList);
-        /*arvoreList.CamCentral(cadConta);
-        arvoreList.pesquisa("SANDRA MAIA MADEIRA VARGAS");
-        arvoreList.ArvoreBalanceada(cadConta);*/
 
+        carregarArvore(arvoreList, path);
+        arvoreList.CamCentral(array);
+        arvoreList.ArvoreBalanceada(array).CamCentral(array2);
+        pesquisarNaArvoreEDevolverParaOArquivo(arvoreList);
         end = System.currentTimeMillis();
         System.out.println("Tempo para execução do arquivo " + (end - start) + "ms");
     }
