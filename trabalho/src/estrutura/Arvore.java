@@ -3,6 +3,8 @@ package estrutura;
 import dados.NoArvore;
 import entities.Conta;
 
+import java.util.LinkedList;
+
 public class Arvore {
     private NoArvore raiz;
 
@@ -14,26 +16,23 @@ public class Arvore {
         return this.raiz;
     }
 
-    public boolean pesquisa (String nome){
-        NoArvore temp;
+    public LinkedList<Conta> pesquisa (String nome){
+        LinkedList<Conta> temp;
 
         temp = this.pesquisa (nome, this.raiz);
-        if (temp != null)
-            return true;
-        else
-            return false;
+        return temp;
     }
 
-    private NoArvore pesquisa (String nome, NoArvore no){
-        NoArvore temp;
-        temp = no;
-
-        if (temp != null){
-            if (nome.compareTo(temp.getInfo().getNome()) < 0)
-                temp = this.pesquisa (nome, temp.getEsq());
-            else{
-                if (nome.compareTo(temp.getInfo().getNome()) > 0)
-                    temp = this.pesquisa (nome, temp.getDir());
+    private LinkedList<Conta> pesquisa (String nome, NoArvore no){
+        LinkedList<Conta> temp;
+        temp = null;
+        if (no!=null){
+            if (nome.compareTo(no.getInfo().get(0).getNome()) < 0)
+                temp = this.pesquisa (nome, no.getEsq());
+            else if (nome.compareTo(no.getInfo().get(0).getNome()) > 0) {
+                temp = this.pesquisa (nome, no.getDir());
+            } else if (nome.compareTo(no.getInfo().get(0).getNome()) == 0) {
+                return no.getInfo();
             }
         }
         return temp;
@@ -51,46 +50,22 @@ public class Arvore {
             return novo;
         }
         else {
-            if (elem.getNome().compareTo(no.getInfo().getNome()) < 0){
+            if (elem.getNome().compareTo(no.getInfo().get(0).getNome()) < 0){
                 no.setEsq(this.insere (elem, no.getEsq()));
                 return no;
             }
-            else{
+            else if (elem.getNome().compareTo(no.getInfo().get(0).getNome()) > 0){
                 no.setDir(this.insere (elem, no.getDir()));
                 return no;
             }
+            else if(elem.getNome().compareTo(no.getInfo().get(0).getNome()) == 0) {
+                no.insereIgual(elem);
+                return no;
+            }
+            return null;
         }
     }
 
-    private NoArvore remove (String nome, NoArvore arv){
-        if (arv == null)
-            return arv;
-        else{
-            if (nome.compareTo(arv.getInfo().getNome()) < 0)
-                arv.setEsq(this.remove (nome, arv.getEsq()));
-            else
-            if (nome.compareTo(arv.getInfo().getNome()) > 0)
-                arv.setDir(this.remove (nome, arv.getDir()));
-            else
-            if (arv.getDir() == null)
-                return arv.getEsq();
-            else
-            if (arv.getEsq() == null)
-                return arv.getDir();
-            else
-                arv.setEsq(this.arruma (arv, arv.getEsq()));
-        }
-        return arv;
-    }
-    private NoArvore arruma (NoArvore Q, NoArvore R){
-        if (R.getDir() != null)
-            R.setDir(this.arruma (Q, R.getDir()));
-        else{
-            Q.setInfo(R.getInfo());
-            R = R.getEsq();
-        }
-        return R;
-    }
 
     public CadConta CamCentral (CadConta vetOrdenado){
         return (this.FazCamCentral (this.raiz, vetOrdenado));
@@ -98,7 +73,7 @@ public class Arvore {
     private CadConta FazCamCentral (NoArvore arv, CadConta vetOrdenado){
         if (arv != null) {
             vetOrdenado = this.FazCamCentral (arv.getEsq(), vetOrdenado);
-            vetOrdenado.inserirVetor (arv.getInfo());
+            vetOrdenado.inserirVetor (arv.getInfo().get(0));
             vetOrdenado = this.FazCamCentral (arv.getDir(), vetOrdenado);
         }
         return vetOrdenado;

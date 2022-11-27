@@ -10,6 +10,7 @@ import java.nio.file.Paths;
 import java.sql.SQLOutput;
 import java.util.*;
 
+import dados.FileOperations;
 import entities.Conta;
 import entities.ContaEspecial;
 import estrutura.Arvore;
@@ -41,14 +42,17 @@ public class Program {
         int i, j;
         long start, end;
         CadConta cadConta = new CadConta(500);
-        path = Paths.get("../cliente500alea.txt");
+        path = Paths.get("../cliente500ord.txt");
         arvoreList = new Arvore();
         start = System.currentTimeMillis();
 
         carregarArvore(arvoreList, path);
-        arvoreList.CamCentral(cadConta);
-        arvoreList = arvoreList.ArvoreBalanceada(cadConta);
-        pesquisarNaArvore(arvoreList, cadConta);
+        System.out.println(arvoreList.CamCentral(cadConta));
+        //pesquisarNaArvoreEDevolverParaOArquivo(arvoreList);
+        //pesquisarNaArvoreEDevolverParaOArquivo(arvoreList);
+        /*arvoreList.CamCentral(cadConta);
+        arvoreList.pesquisa("SANDRA MAIA MADEIRA VARGAS");
+        arvoreList.ArvoreBalanceada(cadConta);*/
 
         end = System.currentTimeMillis();
         System.out.println("Tempo para execução do arquivo " + (end - start) + "ms");
@@ -72,7 +76,7 @@ public class Program {
         }
     }
 
-    public static void pesquisarNaArvore(Arvore arvore, CadConta cadConta) throws IOException {
+    public static void pesquisarNaArvoreEDevolverParaOArquivo(Arvore arvore) throws IOException {
         List<String> linhas = Files.readAllLines(pathNomes, StandardCharsets.UTF_8);
         FileWriter escrever;
         try {
@@ -81,22 +85,12 @@ public class Program {
             String linha;
             while (i < (linhas.size())) {
                 linha = linhas.get(i);
-                System.out.println(linha);
-                if (arvore.pesquisa(linha)) {
-                    escrever.write("Nome: " + linha + "\n");
-                    escrever.write("Conta: " + cadConta.picAccount(linha).getNumeroDaConta() + "\n");
-                    escrever.write("Saldo: " + cadConta.picAccount(linha).getValorNaConta() + "\n");
-                } else if (!(arvore.pesquisa(linha))) {
-                    escrever.write("\n\nNome: " + linha + "\n");
-                    escrever.write("NÃO HÁ NENHUMA OCORRÊNCIA COM O NOME " + linha + "\n\n");
+                if (arvore.pesquisa(linha) != null) {
+                    escrever.write("\nNome: " + arvore.pesquisa(linha).get(0).getNome() + " - ");
+                    escrever.write("Conta: " + arvore.pesquisa(linha).get(0).getNumeroDaConta() +"\n");
+                } else {
+                    escrever.write("\n" + linha + " não existe na árvore\n");
                 }
-                /*if (arvoreList.pesquisa(linha)) {
-                    escrever.write("\nNOME " + cadConta.getArrayContas().get(i).getNome() + "\n");
-                    escrever.write("\nConta " + cadConta.getArrayContas().get(i).getNumeroDaConta() + "    Saldo: " + cadConta.getArrayContas().get(i).getValorNaConta() + "\n");
-                } if (!arvoreList.pesquisa(linha)) {
-                    escrever.write("\nNOME " + linha + "\n");
-                    escrever.write("\n\"NÃO HÁ NENHUMA OCORRÊNCIA COM O NOME " + linha + "\n");
-                }*/
                 i++;
             }
             escrever.close();
@@ -105,7 +99,7 @@ public class Program {
         }
     }
 
-    /*public static void carregarVetor(CadConta lista, Path path) throws IOException {
+    public static void carregarVetor(CadConta lista, Path path) throws IOException {
         List<String> linhas = Files.readAllLines(path, StandardCharsets.UTF_8);
         int i = 0;
         String linha;
@@ -122,7 +116,7 @@ public class Program {
             }
             i++;
         }
-    }*/
+    }
 
     /*public static void lerContasDoArquivoEInserirNoArray() throws IOException {
         Path path;
