@@ -43,18 +43,17 @@ public class Program {
         int i, j;
         long start, end;
         CadConta cadConta = new CadConta(500);
-        path = Paths.get("../cliente500ord.txt");
+        path = Paths.get("../cliente500alea.txt");
         ArrayList<ArrayList<Conta>> array = new ArrayList<>();
-        ArrayList<ArrayList<Conta>> array2 = new ArrayList<>();
         arvoreList = new Arvore();
         start = System.currentTimeMillis();
 
-
         carregarArvore(arvoreList, path);
         arvoreList.CamCentral(array);
-        arvoreList.ArvoreBalanceada(array).CamCentral(array2);
+        arvoreList.ArvoreBalanceada(array);
         pesquisarNaArvoreEDevolverParaOArquivo(arvoreList);
         end = System.currentTimeMillis();
+
         System.out.println("Tempo para execução do arquivo " + (end - start) + "ms");
     }
     public static void carregarArvore(Arvore arvoreList, Path path) throws IOException {
@@ -85,9 +84,12 @@ public class Program {
             String linha;
             while (i < (linhas.size())) {
                 linha = linhas.get(i);
-                if (arvore.pesquisa(linha) != null) {
-                    escrever.write("\nNome: " + arvore.pesquisa(linha).get(0).getNome() + " - ");
-                    escrever.write("Conta: " + arvore.pesquisa(linha).get(0).getNumeroDaConta() +"\n");
+                ArrayList<Conta> dado = arvore.pesquisa(linha);
+                if (dado != null) {
+                    for (Conta conta : dado) {
+                        escrever.write("\nNome: " + conta.getNome() + " - ");
+                        escrever.write("Conta: " + conta.getNumeroDaConta() + " - " + " Saldo: " + conta.getValorNaConta() + "\n");
+                    }
                 } else {
                     escrever.write("\n" + linha + " não existe na árvore\n");
                 }
@@ -95,7 +97,7 @@ public class Program {
             }
             escrever.close();
         } catch (FileNotFoundException e) {
-            System.out.println(e);
+            System.out.println("Arquivo não encontrado");
         }
     }
 
@@ -118,7 +120,7 @@ public class Program {
         }
     }
 
-    /*public static void lerContasDoArquivoEInserirNoArray() throws IOException {
+    public static void lerContasDoArquivoEInserirNoArray() throws IOException {
         Path path;
         CadConta listaCad;
         int i, j;
@@ -166,6 +168,5 @@ public class Program {
             }
             escrever.close();
         }
-    }*/
-
+    }
 }
