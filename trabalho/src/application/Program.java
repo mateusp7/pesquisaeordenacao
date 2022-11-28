@@ -52,27 +52,28 @@ public class Program {
                 // ------------------- Códigos para a ABB --------------------------------
                 ArrayList<ArrayList<Conta>> array = new ArrayList<>();
                 arvoreList = new Arvore();
-                start = System.currentTimeMillis();
+
+                //start = System.currentTimeMillis();
                 carregarArvoreABB(arvoreList, path);
                 arvoreList.CamCentral(array);
                 arvoreList.ArvoreBalanceada(array);
                 pesquisarNaAbbEDevolverParaOArquivo(arvoreList, i, j);
-                end = System.currentTimeMillis();
-                System.out.println("Tempo para execução do arquivo" + vetorQuantidades[i] + vetorNomes[j] + " " + (end - start) + "ms");
+                //end = System.currentTimeMillis();
+                //System.out.println("Tempo para execução do arquivo" + vetorQuantidades[i] + vetorNomes[j] + " " + (end - start) + "ms");
 
                 // ------------------- Códigos para a AVL --------------------------------
+                avlList = new Avl();
                 //start = System.currentTimeMillis();
-                /*avlList = new Avl();
                 carregarArvoreAVL(avlList, path);
-                pesquisarNaAvlEDevolverParaOArquivo(avlList, i, j);*/
+                pesquisarNaAvlEDevolverParaOArquivo(avlList, i, j);
                 //end = System.currentTimeMillis();
                 //System.out.println("Tempo para execução do arquivo" + vetorQuantidades[i] + vetorNomes[j] + " " + (end - start) + "ms");
 
                 // ------------------- Códigos para o Hashing --------------------------------
+                hashList = new HashingEncadeado(vetorQuantidades[i]);
                 //start = System.currentTimeMillis();
-                /*hashList = new HashingEncadeado(vetorQuantidades[i]);
                 carregarHashing(hashList, path);
-                pesquisarNoHashingEDevolverParaOArquivo(hashList, i, j);*/
+                pesquisarNoHashingEDevolverParaOArquivo(hashList, i, j);
                 //end = System.currentTimeMillis();
                 //System.out.println("Tempo para execução do arquivo" + vetorQuantidades[i] + vetorNomes[j] + " " + (end - start) + "ms");
 
