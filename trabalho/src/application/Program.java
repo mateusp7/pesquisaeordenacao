@@ -1,5 +1,4 @@
 package application;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -7,11 +6,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.Array;
-import java.sql.SQLOutput;
 import java.util.*;
 
-import dados.FileOperations;
 import entities.Conta;
 import entities.ContaEspecial;
 import estrutura.Arvore;
@@ -24,7 +20,6 @@ public class Program {
     static String[] vetorNomes = {"alea", "inv", "ord"};
     static Path pathToFiles = Paths.get("../arquivosOrdenados/");
     static Path pathNomes = Paths.get("../nome.txt");
-    static Path pathTeste = Paths.get("../cliente500alea.txt");
     public static void main(String[] args) {
         try {
             realizarProcedimentos();
@@ -34,6 +29,7 @@ public class Program {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+        // ------------------------------ Procedimentos para shellsort e quicksort -------------------------------
         /*try {
             lerContasDoArquivoEInserirNoArray();
             System.out.println("\n======== Processos usando shellsort foram realizados com sucesso ========\n");
@@ -51,22 +47,21 @@ public class Program {
         long start, end;
         for (i = 0; i < 5; i++) {
             for (j = 0; j < 3; j++) {
-                // Pegar o path
                 path = Paths.get("../cliente" + vetorQuantidades[i] + vetorNomes[j] + ".txt");
                 start = System.currentTimeMillis();
 
                 // ------------------- Códigos para a ABB --------------------------------
-                //ArrayList<ArrayList<Conta>> array = new ArrayList<>();
-                //arvoreList = new Arvore();
-                //carregarArvoreABB(arvoreList, path);
-                //arvoreList.CamCentral(array);
-                //arvoreList.ArvoreBalanceada(array);
-                //pesquisarNaArvoreEDevolverParaOArquivo(arvoreList, i, j);
+                ArrayList<ArrayList<Conta>> array = new ArrayList<>();
+                arvoreList = new Arvore();
+                carregarArvoreABB(arvoreList, path);
+                arvoreList.CamCentral(array);
+                arvoreList.ArvoreBalanceada(array);
+                pesquisarNaAbbEDevolverParaOArquivo(arvoreList, i, j);
 
                 // ------------------- Códigos para a AVL --------------------------------
-                //avlList = new Avl();
-                //carregarArvoreAVL(avlList, path);
-                //pesquisarNaAvlEDevolverParaOArquivo(avlList, i, j);
+                avlList = new Avl();
+                carregarArvoreAVL(avlList, path);
+                pesquisarNaAvlEDevolverParaOArquivo(avlList, i, j);
 
                 // ------------------- Códigos para o Hashing --------------------------------
                 hashList = new HashingEncadeado(vetorQuantidades[i]);
@@ -78,7 +73,7 @@ public class Program {
         }
     }
 
-    public static void pesquisarNaArvoreEDevolverParaOArquivo(Arvore arvore, int i, int j) throws IOException {
+    public static void pesquisarNaAbbEDevolverParaOArquivo(Arvore arvore, int i, int j) throws IOException {
         List<String> linhas = Files.readAllLines(pathNomes, StandardCharsets.UTF_8);
         FileWriter escrever;
         try {
@@ -215,6 +210,11 @@ public class Program {
             i++;
         }
     }
+
+
+
+
+
 
 
 

@@ -1,6 +1,5 @@
 package estrutura;
 
-import dados.NoArvore;
 import dados.Nodo;
 import entities.Conta;
 

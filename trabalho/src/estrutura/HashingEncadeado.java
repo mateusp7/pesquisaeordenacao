@@ -1,9 +1,7 @@
 package estrutura;
 
-import dados.NoArvore;
 import entities.Conta;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class HashingEncadeado {
@@ -35,20 +33,6 @@ public class HashingEncadeado {
         }
         tabelaHash[valorHashing].add(temp);
         quantidade++;
-    }
-
-    public void print() {
-        for (int i = 0; i < tabelaHash.length; i++) {
-            if (this.tabelaHash[i] != null) {
-                for (int j = 0; j < tabelaHash[i].size(); j++) {
-                    try {
-                        System.out.println(tabelaHash[i].get(j).getNome());
-                    } catch (NullPointerException e) {
-                        System.out.println("Valor nulo");
-                    }
-                }
-            }
-        }
     }
 
     public ArrayList<Conta> pesquisa (String nome){
