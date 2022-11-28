@@ -48,27 +48,34 @@ public class Program {
         for (i = 0; i < 5; i++) {
             for (j = 0; j < 3; j++) {
                 path = Paths.get("../cliente" + vetorQuantidades[i] + vetorNomes[j] + ".txt");
-                start = System.currentTimeMillis();
 
                 // ------------------- Códigos para a ABB --------------------------------
                 ArrayList<ArrayList<Conta>> array = new ArrayList<>();
                 arvoreList = new Arvore();
+                start = System.currentTimeMillis();
                 carregarArvoreABB(arvoreList, path);
                 arvoreList.CamCentral(array);
                 arvoreList.ArvoreBalanceada(array);
                 pesquisarNaAbbEDevolverParaOArquivo(arvoreList, i, j);
-
-                // ------------------- Códigos para a AVL --------------------------------
-                avlList = new Avl();
-                carregarArvoreAVL(avlList, path);
-                pesquisarNaAvlEDevolverParaOArquivo(avlList, i, j);
-
-                // ------------------- Códigos para o Hashing --------------------------------
-                hashList = new HashingEncadeado(vetorQuantidades[i]);
-                carregarHashing(hashList, path);
-                pesquisarNoHashingEDevolverParaOArquivo(hashList, i, j);
                 end = System.currentTimeMillis();
                 System.out.println("Tempo para execução do arquivo" + vetorQuantidades[i] + vetorNomes[j] + " " + (end - start) + "ms");
+
+                // ------------------- Códigos para a AVL --------------------------------
+                //start = System.currentTimeMillis();
+                /*avlList = new Avl();
+                carregarArvoreAVL(avlList, path);
+                pesquisarNaAvlEDevolverParaOArquivo(avlList, i, j);*/
+                //end = System.currentTimeMillis();
+                //System.out.println("Tempo para execução do arquivo" + vetorQuantidades[i] + vetorNomes[j] + " " + (end - start) + "ms");
+
+                // ------------------- Códigos para o Hashing --------------------------------
+                //start = System.currentTimeMillis();
+                /*hashList = new HashingEncadeado(vetorQuantidades[i]);
+                carregarHashing(hashList, path);
+                pesquisarNoHashingEDevolverParaOArquivo(hashList, i, j);*/
+                //end = System.currentTimeMillis();
+                //System.out.println("Tempo para execução do arquivo" + vetorQuantidades[i] + vetorNomes[j] + " " + (end - start) + "ms");
+
             }
         }
     }
@@ -77,7 +84,7 @@ public class Program {
         List<String> linhas = Files.readAllLines(pathNomes, StandardCharsets.UTF_8);
         FileWriter escrever;
         try {
-            escrever = new FileWriter("../arquivosNomesParte2/clienteAVL" + vetorQuantidades[i] +
+            escrever = new FileWriter("../pesquisasAbbAvlHashing/clienteABB" + vetorQuantidades[i] +
                     vetorNomes[j] + ".txt", StandardCharsets.UTF_8);
             int k = 0;
             String linha;
@@ -104,7 +111,7 @@ public class Program {
         List<String> linhas = Files.readAllLines(pathNomes, StandardCharsets.UTF_8);
         FileWriter escrever;
         try {
-            escrever = new FileWriter("../arquivosNomesParte2/clienteAVL" + vetorQuantidades[i] +
+            escrever = new FileWriter("../pesquisasAbbAvlHashing/clienteAVL" + vetorQuantidades[i] +
                     vetorNomes[j] + ".txt", StandardCharsets.UTF_8);
             int k = 0;
             String linha;
@@ -130,7 +137,7 @@ public class Program {
         List<String> linhas = Files.readAllLines(pathNomes, StandardCharsets.UTF_8);
         FileWriter escrever;
         try {
-            escrever = new FileWriter("../arquivosNomesParte2/clienteHashing" + vetorQuantidades[i] +
+            escrever = new FileWriter("../pesquisasAbbAvlHashing/clienteHashingEncadeado" + vetorQuantidades[i] +
                     vetorNomes[j] + ".txt", StandardCharsets.UTF_8);
             int k = 0;
             String linha;
