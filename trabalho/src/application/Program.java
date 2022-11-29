@@ -22,10 +22,17 @@ public class Program {
     static Path pathNomes = Paths.get("../nome.txt");
     public static void main(String[] args) {
         try {
-            realizarProcedimentos();
+            System.out.println("----------------- Procedimentos ABB -------------------");
+            realizarProcedimentosAbb();
+            /*System.out.println("----------------- Procedimentos AVL -------------------");
+            realizarProcedimentosAvl();
+            System.out.println("----------------- Procedimentos Hashing Encadeado -------------------");
+            realizarProcedimentosHashingEncadeado();*/
             System.out.println("Processos finalizados");
         } catch (IndexOutOfBoundsException | IOException e) {
-            System.out.println("\n====== Não foi possível realizar os procedimentos ======\n");
+            System.out.println("\n====== O limite do vetor foi ultrapassado ======\n");
+        } catch (StackOverflowError e) {
+            System.out.println("Ocorreu um estouro de pilha e não foi possível concluir os procedimentos");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -38,48 +45,77 @@ public class Program {
         }*/
     }
 
-    public static void realizarProcedimentos() throws Exception {
+    public static void realizarProcedimentosAbb() throws Exception {
         Path path;
         Arvore arvoreList;
+        int i, j;
+        long start, end;
+        for (i = 0; i < 5; i++) {
+            for (j = 0; j < 3; j++) {
+                try {
+                    path = Paths.get("../cliente" + vetorQuantidades[i] + vetorNomes[j] + ".txt");
+                    ArrayList<ArrayList<Conta>> array = new ArrayList<>();
+                    arvoreList = new Arvore();
+                    start = System.currentTimeMillis();
+                    carregarArvoreABB(arvoreList, path);
+                    arvoreList.CamCentral(array);
+                    arvoreList.ArvoreBalanceada(array);
+                    pesquisarNaAbbEDevolverParaOArquivo(arvoreList, i, j);
+                    end = System.currentTimeMillis();
+                    System.out.println("ABB - Tempo para execução do arquivo" + vetorQuantidades[i] + vetorNomes[j] + " " + (end - start) + "ms");
+                } catch (FileNotFoundException e) {
+                    System.out.println("Arquivo cliente" + vetorQuantidades[i] + vetorNomes[j] + ".txt não foi encontrado");
+                }
+            }
+        }
+    }
+
+    public static void realizarProcedimentosAvl() throws Exception {
+        Path path;
         Avl avlList;
+        int i, j;
+        long start, end;
+        for (i = 0; i < 5; i++) {
+            for (j = 0; j < 3; j++) {
+                try {
+                    path = Paths.get("../cliente" + vetorQuantidades[i] + vetorNomes[j] + ".txt");
+                    avlList = new Avl();
+                    start = System.currentTimeMillis();
+                    carregarArvoreAVL(avlList, path);
+                    pesquisarNaAvlEDevolverParaOArquivo(avlList, i, j);
+                    end = System.currentTimeMillis();
+                    System.out.println("AVL - Tempo para execução do arquivo" + vetorQuantidades[i] + vetorNomes[j] + " " + (end - start) + "ms");
+                }
+                catch (FileNotFoundException e) {
+                    System.out.println("Arquivo cliente" + vetorQuantidades[i] + vetorNomes[j] + ".txt não foi encontrado");
+                }
+            }
+        }
+    }
+
+    public static void realizarProcedimentosHashingEncadeado() throws Exception {
+        Path path;
         HashingEncadeado hashList;
         int i, j;
         long start, end;
         for (i = 0; i < 5; i++) {
             for (j = 0; j < 3; j++) {
-                path = Paths.get("../cliente" + vetorQuantidades[i] + vetorNomes[j] + ".txt");
-
-                // ------------------- Códigos para a ABB --------------------------------
-                ArrayList<ArrayList<Conta>> array = new ArrayList<>();
-                arvoreList = new Arvore();
-
-                //start = System.currentTimeMillis();
-                carregarArvoreABB(arvoreList, path);
-                arvoreList.CamCentral(array);
-                arvoreList.ArvoreBalanceada(array);
-                pesquisarNaAbbEDevolverParaOArquivo(arvoreList, i, j);
-                //end = System.currentTimeMillis();
-                //System.out.println("Tempo para execução do arquivo" + vetorQuantidades[i] + vetorNomes[j] + " " + (end - start) + "ms");
-
-                // ------------------- Códigos para a AVL --------------------------------
-                avlList = new Avl();
-                //start = System.currentTimeMillis();
-                carregarArvoreAVL(avlList, path);
-                pesquisarNaAvlEDevolverParaOArquivo(avlList, i, j);
-                //end = System.currentTimeMillis();
-                //System.out.println("Tempo para execução do arquivo" + vetorQuantidades[i] + vetorNomes[j] + " " + (end - start) + "ms");
-
-                // ------------------- Códigos para o Hashing --------------------------------
-                hashList = new HashingEncadeado(vetorQuantidades[i]);
-                //start = System.currentTimeMillis();
-                carregarHashing(hashList, path);
-                pesquisarNoHashingEDevolverParaOArquivo(hashList, i, j);
-                //end = System.currentTimeMillis();
-                //System.out.println("Tempo para execução do arquivo" + vetorQuantidades[i] + vetorNomes[j] + " " + (end - start) + "ms");
-
+                try {
+                    path = Paths.get("../cliente" + vetorQuantidades[i] + vetorNomes[j] + ".txt");
+                    hashList = new HashingEncadeado(vetorQuantidades[i]);
+                    start = System.currentTimeMillis();
+                    carregarHashing(hashList, path);
+                    pesquisarNoHashingEDevolverParaOArquivo(hashList, i, j);
+                    end = System.currentTimeMillis();
+                    System.out.println("Hashing - Tempo para execução do arquivo" + vetorQuantidades[i]
+                            + vetorNomes[j] + " " + (end - start) + "ms");
+                } catch (FileNotFoundException e) {
+                    System.out.println("Arquivo cliente" + vetorQuantidades[i] + vetorNomes[j] + ".txt não foi encontrado");
+                }
             }
         }
     }
+
 
     public static void pesquisarNaAbbEDevolverParaOArquivo(Arvore arvore, int i, int j) throws IOException {
         List<String> linhas = Files.readAllLines(pathNomes, StandardCharsets.UTF_8);
@@ -168,16 +204,22 @@ public class Program {
         String linha;
         String[] valorComSplit;
         while(i < (linhas.size())){
-            linha = linhas.get(i);
-            valorComSplit = linha.split(";");
-            if (valorComSplit.length == 5) {
-                arvoreList.insere(new ContaEspecial(Integer.parseInt(valorComSplit[0]), (valorComSplit[1]),
-                        (valorComSplit[2]), Double.parseDouble(valorComSplit[3]), Double.parseDouble(valorComSplit[4])));
-            } else if (valorComSplit.length == 4){
-                arvoreList.insere(new Conta(Integer.parseInt(valorComSplit[0]), (valorComSplit[1]),
-                        (valorComSplit[2]), Double.parseDouble(valorComSplit[3])));
+            try {
+                linha = linhas.get(i);
+                valorComSplit = linha.split(";");
+                if (valorComSplit.length == 5) {
+                    arvoreList.insere(new ContaEspecial(Integer.parseInt(valorComSplit[0]), (valorComSplit[1]),
+                            (valorComSplit[2]), Double.parseDouble(valorComSplit[3]), Double.parseDouble(valorComSplit[4])));
+                } else if (valorComSplit.length == 4){
+                    arvoreList.insere(new Conta(Integer.parseInt(valorComSplit[0]), (valorComSplit[1]),
+                            (valorComSplit[2]), Double.parseDouble(valorComSplit[3])));
+                }
+                i++;
+            } catch (NumberFormatException e) {
+                System.out.println("Conversão incorreta");
+            } catch (NullPointerException e) {
+                System.out.println("Linha não possui dados");
             }
-            i++;
         }
     }
 
@@ -187,16 +229,22 @@ public class Program {
         String linha;
         String[] valorComSplit;
         while(i < (linhas.size())){
-            linha = linhas.get(i);
-            valorComSplit = linha.split(";");
-            if (valorComSplit.length == 5) {
-                arvoreList.insereRaiz(new ContaEspecial(Integer.parseInt(valorComSplit[0]), (valorComSplit[1]),
-                        (valorComSplit[2]), Double.parseDouble(valorComSplit[3]), Double.parseDouble(valorComSplit[4])));
-            } else if (valorComSplit.length == 4){
-                arvoreList.insereRaiz(new Conta(Integer.parseInt(valorComSplit[0]), (valorComSplit[1]),
-                        (valorComSplit[2]), Double.parseDouble(valorComSplit[3])));
+            try {
+                linha = linhas.get(i);
+                valorComSplit = linha.split(";");
+                if (valorComSplit.length == 5) {
+                    arvoreList.insereRaiz(new ContaEspecial(Integer.parseInt(valorComSplit[0]), (valorComSplit[1]),
+                            (valorComSplit[2]), Double.parseDouble(valorComSplit[3]), Double.parseDouble(valorComSplit[4])));
+                } else if (valorComSplit.length == 4){
+                    arvoreList.insereRaiz(new Conta(Integer.parseInt(valorComSplit[0]), (valorComSplit[1]),
+                            (valorComSplit[2]), Double.parseDouble(valorComSplit[3])));
+                }
+                i++;
+            } catch (NumberFormatException e) {
+                System.out.println("Conversão incorreta");
+            } catch (NullPointerException e) {
+                System.out.println("Linha não possui dados");
             }
-            i++;
         }
     }
 
@@ -206,16 +254,22 @@ public class Program {
         String linha;
         String[] valorComSplit;
         while(i < (linhas.size())){
-            linha = linhas.get(i);
-            valorComSplit = linha.split(";");
-            if (valorComSplit.length == 5) {
-                hashList.inserirInHashing(new ContaEspecial(Integer.parseInt(valorComSplit[0]), (valorComSplit[1]),
-                        (valorComSplit[2]), Double.parseDouble(valorComSplit[3]), Double.parseDouble(valorComSplit[4])));
-            } else if (valorComSplit.length == 4){
-                hashList.inserirInHashing(new Conta(Integer.parseInt(valorComSplit[0]), (valorComSplit[1]),
-                        (valorComSplit[2]), Double.parseDouble(valorComSplit[3])));
+            try {
+                linha = linhas.get(i);
+                valorComSplit = linha.split(";");
+                if (valorComSplit.length == 5) {
+                    hashList.inserirInHashing(new ContaEspecial(Integer.parseInt(valorComSplit[0]), (valorComSplit[1]),
+                            (valorComSplit[2]), Double.parseDouble(valorComSplit[3]), Double.parseDouble(valorComSplit[4])));
+                } else if (valorComSplit.length == 4){
+                    hashList.inserirInHashing(new Conta(Integer.parseInt(valorComSplit[0]), (valorComSplit[1]),
+                            (valorComSplit[2]), Double.parseDouble(valorComSplit[3])));
+                }
+                i++;
+            } catch (NumberFormatException e) {
+                System.out.println("Conversão incorreta");
+            } catch (NullPointerException e) {
+                System.out.println("Linha não possui dados");
             }
-            i++;
         }
     }
 
