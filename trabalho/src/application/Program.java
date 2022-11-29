@@ -24,10 +24,10 @@ public class Program {
         try {
             System.out.println("----------------- Procedimentos ABB -------------------");
             realizarProcedimentosAbb();
-            /*System.out.println("----------------- Procedimentos AVL -------------------");
+            System.out.println("----------------- Procedimentos AVL -------------------");
             realizarProcedimentosAvl();
             System.out.println("----------------- Procedimentos Hashing Encadeado -------------------");
-            realizarProcedimentosHashingEncadeado();*/
+            realizarProcedimentosHashingEncadeado();
             System.out.println("Processos finalizados");
         } catch (IndexOutOfBoundsException | IOException e) {
             System.out.println("\n====== O limite do vetor foi ultrapassado ======\n");
